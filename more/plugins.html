@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>插件系统（Plugin） | iqy-server</title>
+    <meta name="description" content="a web framework by koa and typescript">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.c64c3b95.css" as="style"><link rel="preload" href="/assets/js/app.d1eb94fb.js" as="script"><link rel="preload" href="/assets/js/2.cd4a7bc1.js" as="script"><link rel="preload" href="/assets/js/9.2825b823.js" as="script"><link rel="prefetch" href="/assets/js/10.84e40d6b.js"><link rel="prefetch" href="/assets/js/11.7cd3c8a5.js"><link rel="prefetch" href="/assets/js/12.32df5c79.js"><link rel="prefetch" href="/assets/js/13.96cb940e.js"><link rel="prefetch" href="/assets/js/14.3ba1a09b.js"><link rel="prefetch" href="/assets/js/3.092c2618.js"><link rel="prefetch" href="/assets/js/4.0998f2e0.js"><link rel="prefetch" href="/assets/js/5.6bdd2fb9.js"><link rel="prefetch" href="/assets/js/6.47e2198d.js"><link rel="prefetch" href="/assets/js/7.ad444c48.js"><link rel="prefetch" href="/assets/js/8.3be9a4b9.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.c64c3b95.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">iqy-server</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>快速开始</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/quickstart/quickStart.html" class="sidebar-link">快速入门</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>基础功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/quickstart/controller.html" class="sidebar-link">控制器(Controller)</a></li><li><a href="/quickstart/service.html" class="sidebar-link">服务(Service)</a></li><li><a href="/quickstart/middleware.html" class="sidebar-link">中间件(Middleware)</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>高级功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/high/mysql.html" class="sidebar-link">MySQL</a></li><li><a href="/high/websocket.html" class="sidebar-link">WebSocket</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>更多内容</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/more/config.html" class="sidebar-link">配置(Config)</a></li><li><a href="/more/plugins.html" class="active sidebar-link">插件(Plugins)</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="插件系统（plugin）"><a href="#插件系统（plugin）" class="header-anchor">#</a> 插件系统（Plugin）</h3> <p>有了middleware之后，为什么我们还需要插件这个概念，在Koa中中间件会在每次请求的时候跟上下文相关联。但是有一些函数或者操作是与上下文无关的，比如数据库，消息队列等。</p> <h4 id="基本使用方法"><a href="#基本使用方法" class="header-anchor">#</a> 基本使用方法</h4> <p>Plugin应该实现SoPlugin接口，初始化工作在start成员函数中完成，文件名应以plugin.ts结尾，否则不能正常工作。</p> <p>Plugin注解传参，若无传参 将使用类名作为属性名，若传参将使用传入参数名作为属性名。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// pluginA.plugin.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Plugin<span class="token punctuation">,</span>SoPlugin <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'iqy-server'</span>
+
+@<span class="token function">Plugin</span><span class="token punctuation">(</span><span class="token string">&quot;testPluginA&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">PluginA</span> <span class="token keyword">implements</span> <span class="token class-name">SoPlugin</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> app<span class="token operator">:</span><span class="token builtin">any</span><span class="token punctuation">;</span> 	<span class="token comment">// 服务器实例对象</span>
+    <span class="token keyword">public</span> config<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span>	<span class="token comment">// config对象</span>
+    <span class="token keyword">public</span> <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment">// code here</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// code here some other method</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>这里给出一个Redis的例子，首先需要安装Redis，＠types/redis相关包。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// redis.plugin.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createClient<span class="token punctuation">,</span> RedisClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;redis&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Plugin<span class="token punctuation">,</span> SoPlugin <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;iqy-server&quot;</span><span class="token punctuation">;</span>
+
+@<span class="token function">Plugin</span><span class="token punctuation">(</span><span class="token string">&quot;redis&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">Redis</span> <span class="token keyword">implements</span> <span class="token class-name">SoPlugin</span> <span class="token punctuation">{</span>
+  <span class="token keyword">public</span> app<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span>
+  <span class="token keyword">public</span> config<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span>
+  <span class="token keyword">public</span> conn<span class="token operator">:</span> RedisClient<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>conn <span class="token operator">=</span> <span class="token function">createClient</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>config<span class="token punctuation">.</span>redis<span class="token punctuation">.</span>port<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>config<span class="token punctuation">.</span>redis<span class="token punctuation">.</span>host<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">set</span><span class="token punctuation">(</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>conn<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">get</span><span class="token punctuation">(</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>conn<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</code></pre></div><p>框架将会自动注入到controller，service，middleware中，在controller，service，middleware中即可使用。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// test.controller.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> SoController<span class="token punctuation">,</span> Controller<span class="token punctuation">,</span> Get <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;iqy-server&quot;</span><span class="token punctuation">;</span>
+
+@<span class="token function">Controller</span><span class="token punctuation">(</span><span class="token string">&quot;&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">IndexController</span> <span class="token keyword">extends</span> <span class="token class-name">SoController</span> <span class="token punctuation">{</span>
+  @<span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">&quot;/&quot;</span><span class="token punctuation">)</span>
+  <span class="token keyword">async</span> <span class="token function">index</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>redis<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">&quot;test&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>ctx<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token string">&quot;hello iqy-server&quot;</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h4 id="框架内置插件"><a href="#框架内置插件" class="header-anchor">#</a> 框架内置插件</h4> <ul><li><p>curl</p> <p>基于request包实现的简单请求方法，目前封装三种请求方式，使用时通过this.curl调用</p> <ul><li>init</li> <li>get</li> <li>post</li></ul></li> <li><p>mysql</p> <p>基于mysql实现的封装对象，简单封装相关操作，支持单数据源和多数据源，详情参见<a href="/high/mysql">MySql部分</a></p></li></ul></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/more/config.html" class="prev">配置(Config)</a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.d1eb94fb.js" defer></script><script src="/assets/js/2.cd4a7bc1.js" defer></script><script src="/assets/js/9.2825b823.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Service | iqy-server</title>
+    <meta name="description" content="a web framework by koa and typescript">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.c64c3b95.css" as="style"><link rel="preload" href="/assets/js/app.d1eb94fb.js" as="script"><link rel="preload" href="/assets/js/2.cd4a7bc1.js" as="script"><link rel="preload" href="/assets/js/13.96cb940e.js" as="script"><link rel="prefetch" href="/assets/js/10.84e40d6b.js"><link rel="prefetch" href="/assets/js/11.7cd3c8a5.js"><link rel="prefetch" href="/assets/js/12.32df5c79.js"><link rel="prefetch" href="/assets/js/14.3ba1a09b.js"><link rel="prefetch" href="/assets/js/3.092c2618.js"><link rel="prefetch" href="/assets/js/4.0998f2e0.js"><link rel="prefetch" href="/assets/js/5.6bdd2fb9.js"><link rel="prefetch" href="/assets/js/6.47e2198d.js"><link rel="prefetch" href="/assets/js/7.ad444c48.js"><link rel="prefetch" href="/assets/js/8.3be9a4b9.js"><link rel="prefetch" href="/assets/js/9.2825b823.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.c64c3b95.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">iqy-server</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>快速开始</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/quickstart/quickStart.html" class="sidebar-link">快速入门</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>基础功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/quickstart/controller.html" class="sidebar-link">控制器(Controller)</a></li><li><a href="/quickstart/service.html" class="active sidebar-link">服务(Service)</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/quickstart/middleware.html" class="sidebar-link">中间件(Middleware)</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>高级功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/high/mysql.html" class="sidebar-link">MySQL</a></li><li><a href="/high/websocket.html" class="sidebar-link">WebSocket</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>更多内容</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/more/config.html" class="sidebar-link">配置(Config)</a></li><li><a href="/more/plugins.html" class="sidebar-link">插件(Plugins)</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="service"><a href="#service" class="header-anchor">#</a> Service</h3> <p>简单来说，Service 就是在复杂业务场景下用于做业务逻辑封装的一个抽象层，提供这个抽象有以下几个好处：</p> <ul><li>保持 Controller 中的逻辑更加简洁。</li> <li>保持业务逻辑的独立性，抽象出来的 Service 可以被多个 Controller 重复调用。</li> <li>将逻辑和展现分离，更容易编写测试用例。</li></ul> <h4 id="基本的service"><a href="#基本的service" class="header-anchor">#</a> 基本的Service</h4> <p>同controller一样，需要继承于SoService用于获取内置ctx，使用Service注解自动注入。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// src/service/test.service.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>　SoService<span class="token punctuation">,</span>Service　<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'iqy-server'</span><span class="token punctuation">;</span>
+
+@Service
+<span class="token keyword">export</span> TestService <span class="token keyword">extends</span> <span class="token class-name">SoService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">async</span> <span class="token function">query</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span><span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>
+        <span class="token comment">// code</span>
+        <span class="token comment">// eg: </span>
+        <span class="token comment">// const result = await this.db.mysql.exec(&quot;select * from my_user&quot;,[])</span>
+        <span class="token comment">// return result</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="更多"><a href="#更多" class="header-anchor">#</a> 更多</h4> <ul><li><p>在Service中调用其他Service</p> <p>同service的使用，使用Autowired注解自动注入即可使用。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// src/service/newTest.service.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> SoService<span class="token punctuation">,</span>Service<span class="token punctuation">,</span>Autowired <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'iqy-server'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> TestService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./test.service.ts'</span>
+
+@Service
+<span class="token keyword">export</span> NewTestService <span class="token keyword">extends</span> <span class="token class-name">SoService</span> <span class="token punctuation">{</span>
+    
+    @Autowired
+    <span class="token keyword">private</span> testService<span class="token operator">:</span> TestService<span class="token punctuation">;</span>
+    
+    <span class="token keyword">async</span> <span class="token function">query</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span><span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>
+        <span class="token comment">// code</span>
+        <span class="token comment">// eg: </span>
+        <span class="token comment">// const result = await this.db.mysql.exec(&quot;select * from my_user&quot;,[])</span>
+        <span class="token comment">// return result</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></li></ul></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/quickstart/controller.html" class="prev">控制器(Controller)</a></span> <span class="next"><a href="/quickstart/middleware.html">中间件(Middleware)</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.d1eb94fb.js" defer></script><script src="/assets/js/2.cd4a7bc1.js" defer></script><script src="/assets/js/13.96cb940e.js" defer></script>
+  </body>
+</html>

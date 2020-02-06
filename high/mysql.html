@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MySQL | iqy-server</title>
+    <meta name="description" content="a web framework by koa and typescript">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.c64c3b95.css" as="style"><link rel="preload" href="/assets/js/app.d1eb94fb.js" as="script"><link rel="preload" href="/assets/js/2.cd4a7bc1.js" as="script"><link rel="preload" href="/assets/js/6.47e2198d.js" as="script"><link rel="prefetch" href="/assets/js/10.84e40d6b.js"><link rel="prefetch" href="/assets/js/11.7cd3c8a5.js"><link rel="prefetch" href="/assets/js/12.32df5c79.js"><link rel="prefetch" href="/assets/js/13.96cb940e.js"><link rel="prefetch" href="/assets/js/14.3ba1a09b.js"><link rel="prefetch" href="/assets/js/3.092c2618.js"><link rel="prefetch" href="/assets/js/4.0998f2e0.js"><link rel="prefetch" href="/assets/js/5.6bdd2fb9.js"><link rel="prefetch" href="/assets/js/7.ad444c48.js"><link rel="prefetch" href="/assets/js/8.3be9a4b9.js"><link rel="prefetch" href="/assets/js/9.2825b823.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.c64c3b95.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">iqy-server</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>快速开始</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/quickstart/quickStart.html" class="sidebar-link">快速入门</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>基础功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/quickstart/controller.html" class="sidebar-link">控制器(Controller)</a></li><li><a href="/quickstart/service.html" class="sidebar-link">服务(Service)</a></li><li><a href="/quickstart/middleware.html" class="sidebar-link">中间件(Middleware)</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>高级功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/high/mysql.html" class="active sidebar-link">MySQL</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/high/websocket.html" class="sidebar-link">WebSocket</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>更多内容</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/more/config.html" class="sidebar-link">配置(Config)</a></li><li><a href="/more/plugins.html" class="sidebar-link">插件(Plugins)</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="mysql"><a href="#mysql" class="header-anchor">#</a> MySQL</h3> <p>mysql简单封装，支持单数据和多数据源，使用时配置config文件，单数据源和多数据源使用时有细微差异，请参照示例代码。</p> <p>单数据源eg：使用时通过this.db.mysql调用。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// dev.config.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Config <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;iqy-server&quot;</span><span class="token punctuation">;</span>
+
+@<span class="token function">Config</span><span class="token punctuation">(</span><span class="token string">&quot;dev&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">DevConfig</span> <span class="token punctuation">{</span>
+  <span class="token keyword">public</span> mysql <span class="token operator">=</span> <span class="token punctuation">{</span>
+    enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// 设置为true时才能够使用到mysql</span>
+    client<span class="token operator">:</span> <span class="token punctuation">{</span>
+      host<span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span>
+      port<span class="token operator">:</span> <span class="token number">3306</span><span class="token punctuation">,</span>
+      user<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+      password<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+      database<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// test.service.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> SoService<span class="token punctuation">,</span> Service <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;iqy-server&quot;</span><span class="token punctuation">;</span>
+
+@Service
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">LoginService</span> <span class="token keyword">extends</span> <span class="token class-name">SoService</span> <span class="token punctuation">{</span>
+  <span class="token keyword">async</span> <span class="token function">findUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>db<span class="token punctuation">.</span>mysql<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token string">&quot;select * from admin_user&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>多数据源eg：调用时通过this.db.get(&quot;xx&quot;)调用。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// dev.config.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Config <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;iqy-server&quot;</span><span class="token punctuation">;</span>
+
+@<span class="token function">Config</span><span class="token punctuation">(</span><span class="token string">&quot;dev&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">DevConfig</span> <span class="token punctuation">{</span>
+  <span class="token keyword">public</span> mysql <span class="token operator">=</span> <span class="token punctuation">{</span>
+    enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    clients<span class="token operator">:</span> <span class="token punctuation">{</span>
+      db1<span class="token operator">:</span> <span class="token punctuation">{</span>
+        host<span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span>
+        port<span class="token operator">:</span> <span class="token number">3306</span><span class="token punctuation">,</span>
+        user<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+        password<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+        database<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      db2<span class="token operator">:</span> <span class="token punctuation">{</span>
+        host<span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span>
+        port<span class="token operator">:</span> <span class="token number">3306</span><span class="token punctuation">,</span>
+        user<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+        password<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+        database<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// test.service.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> SoService<span class="token punctuation">,</span> Service <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;iqy-server&quot;</span><span class="token punctuation">;</span>
+
+@Service
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">LoginService</span> <span class="token keyword">extends</span> <span class="token class-name">SoService</span> <span class="token punctuation">{</span>
+  <span class="token keyword">async</span> <span class="token function">findUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>db<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">&quot;db1&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token string">&quot;select * from admin_user&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/quickstart/middleware.html" class="prev">中间件(Middleware)</a></span> <span class="next"><a href="/high/websocket.html">WebSocket</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.d1eb94fb.js" defer></script><script src="/assets/js/2.cd4a7bc1.js" defer></script><script src="/assets/js/6.47e2198d.js" defer></script>
+  </body>
+</html>

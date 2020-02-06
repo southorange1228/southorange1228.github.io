@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>控制器（Controller） | iqy-server</title>
+    <meta name="description" content="a web framework by koa and typescript">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.c64c3b95.css" as="style"><link rel="preload" href="/assets/js/app.d1eb94fb.js" as="script"><link rel="preload" href="/assets/js/2.cd4a7bc1.js" as="script"><link rel="preload" href="/assets/js/10.84e40d6b.js" as="script"><link rel="prefetch" href="/assets/js/11.7cd3c8a5.js"><link rel="prefetch" href="/assets/js/12.32df5c79.js"><link rel="prefetch" href="/assets/js/13.96cb940e.js"><link rel="prefetch" href="/assets/js/14.3ba1a09b.js"><link rel="prefetch" href="/assets/js/3.092c2618.js"><link rel="prefetch" href="/assets/js/4.0998f2e0.js"><link rel="prefetch" href="/assets/js/5.6bdd2fb9.js"><link rel="prefetch" href="/assets/js/6.47e2198d.js"><link rel="prefetch" href="/assets/js/7.ad444c48.js"><link rel="prefetch" href="/assets/js/8.3be9a4b9.js"><link rel="prefetch" href="/assets/js/9.2825b823.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.c64c3b95.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">iqy-server</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>快速开始</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/quickstart/quickStart.html" class="sidebar-link">快速入门</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>基础功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/quickstart/controller.html" class="active sidebar-link">控制器(Controller)</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/quickstart/service.html" class="sidebar-link">服务(Service)</a></li><li><a href="/quickstart/middleware.html" class="sidebar-link">中间件(Middleware)</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>高级功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/high/mysql.html" class="sidebar-link">MySQL</a></li><li><a href="/high/websocket.html" class="sidebar-link">WebSocket</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>更多内容</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/more/config.html" class="sidebar-link">配置(Config)</a></li><li><a href="/more/plugins.html" class="sidebar-link">插件(Plugins)</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="控制器（controller）"><a href="#控制器（controller）" class="header-anchor">#</a> 控制器（Controller）</h3> <p>同常见的MVC开发，用于解析用户请求和返回用户响应，写过SpringMVC的话，将会很熟悉此类写法。</p> <h4 id="编写controller"><a href="#编写controller" class="header-anchor">#</a> 编写Controller</h4> <p>规范：</p> <ul><li>controller文件必须以.controller.ts结尾</li> <li>controller类必须继承于SoController,否则无法在当前实例中获取到ctx及其他相关属性</li> <li>必须使用@Controller注解，用于自动加载route以及增加路由前缀</li></ul> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// 新增src/controller/test.controller.ts文件</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> SoController<span class="token punctuation">,</span>Controller<span class="token punctuation">,</span>Get <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'iqy-server'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Controller</span><span class="token punctuation">(</span><span class="token string">&quot;/&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> TestController <span class="token keyword">extends</span> <span class="token class-name">SoController</span> <span class="token punctuation">{</span>
+    
+    @<span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">&quot;/&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">async</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ctx<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token string">&quot;hello iqy-server&quot;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>如上示例代码所见，Get即确定当前请求路径和请求方式（使用目前REST结构），目前支持Get,Post,Put,Delete,Patch五种请求方式。</p> <h4 id="controller中使用service"><a href="#controller中使用service" class="header-anchor">#</a> Controller中使用Service</h4> <p>通常在MVC开发中我们一般将数据库等操作放在service中和业务解耦，当我们编写好了一个service之后，只需要在controller中，引入即可。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// 假设已经存在src/service/test.service.ts文件</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> SoController<span class="token punctuation">,</span>Controller<span class="token punctuation">,</span>Get<span class="token punctuation">,</span>Autowired <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'iqy-server'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> TestService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../service/test.service.ts'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Controller</span><span class="token punctuation">(</span><span class="token string">&quot;/&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> TestController <span class="token keyword">extends</span> <span class="token class-name">SoController</span> <span class="token punctuation">{</span>
+    
+    @Autowired
+    <span class="token keyword">private</span> testService<span class="token operator">:</span> TestService
+    
+    @<span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">&quot;/&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">async</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment">//  code in here</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ctx<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token string">&quot;hello iqy-server&quot;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/quickstart/quickStart.html" class="prev">快速入门</a></span> <span class="next"><a href="/quickstart/service.html">服务(Service)</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.d1eb94fb.js" defer></script><script src="/assets/js/2.cd4a7bc1.js" defer></script><script src="/assets/js/10.84e40d6b.js" defer></script>
+  </body>
+</html>
